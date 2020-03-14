@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{#{% load is_favorite %}#}
+{% block menu %}
+    {% if request.user.is_authenticated %}
+{#        <li><a href="{% url 'webapp:announce_create' %}">Добавить Файл</a></li>#}
+    {% endif %}
+{% endblock %}
+
+{#{% block content %}#}
+{#    <section>#}
+{#        <h1>Объявления:</h1>#}
+{#        {% for ann in announce %}#}
+{##}
+{#    <div class="card" style="width: 18rem;">#}
+{#    {% if  ann.image.all.first.photos.url %}#}
+{#        <img src="{{ ann.image.all.first.photos.url }}" class="card-img-top" alt="...">#}
+{#        {% else %}#}
+{#        <img src="/uploads/no_photo.jpg" class="card-img-top" alt="...">#}
+{#        {% endif %}#}
+{#  <div class="card-body">#}
+{#    <h5 class="card-title">Просмотров: {{ ann.counter }}</h5>#}
+{#    <p class="card-text">Описание: {{ ann.description }}</p>#}
+{#      <p class="card-text">Телефон: {{ ann.phone}}</p>#}
+{#      <p class="card-text">Автор:  <a href="{% url 'accounts:user_detail' ann.author.pk %}">{{ ann.author}}</a></p>#}
+{#      <tr data-href="{% url 'accounts:user_detail' use.pk %}">#}
+{#    <a href="#" class="btn btn-primary">Go somewhere</a>#}
+{#      <a href="{% url 'webapp:image_add' ann.pk %}" class="btn btn-primary">Добавить фото</a>#}
+{#      <a href="{% url 'webapp:announce_detail' ann.pk%}" class="btn btn-success">Посмотреть</a>#}
+{#      {% if request.user.is_authenticated %}#}
+{#            {% include 'partial/favorites_buttons.html' %}#}
+{#        {% endif %}#}
+{#  </div>#}
+{#</div>#}
+{#    {% endfor %}#}
+{#    </section>#}
+{#    <section>#}
+{#            </p>#}
+{#            <hr/>#}
+{#    </section>#}
+{#{% endblock %}#}
