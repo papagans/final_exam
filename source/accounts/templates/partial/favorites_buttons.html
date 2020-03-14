@@ -1,0 +1,15 @@
+{% load is_private %}
+<div id="favorites-button-{{ user.pk }}" class="mt-2">
+    {% with private=user|is_private:request.user %}
+        <a href="{% url "webapp:add_to_favorites" %}"
+           id="add-to-favorites-{{ user.pk }}"
+           class="btn btn-success favorites-add
+                  {% if private %}d-none{% endif %}"
+           data-product-pk="{{ user.pk }}">Добавить в приват</a>
+        <a href="{% url "webapp:delete_from_favorites" %}"
+           id="delete-from-favorites-{{ user.pk }}"
+           class="btn btn-danger favorites-delete
+                 {% if not private %}d-none{% endif %}"
+           data-product-pk="{{ user.pk }}">Удалить из привата</a>
+    {% endwith %}
+</div>

@@ -1,27 +1,17 @@
-from django.shortcuts import render
-from django.shortcuts import render
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import redirect, get_object_or_404
-from django.urls import reverse, reverse_lazy
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, CreateView,\
-    UpdateView, DeleteView, FormView, View
-# from django.core.paginator import Paginator
-#
+    UpdateView, DeleteView, View
+
 from webapp.forms import AnonymCreationForm, FileCreationForm, SimpleSearchForm
-from .base_views import SimpleSearchView
-from webapp.models import Files
+from webapp.models import Files, Private
+import json
 # Create your views here.
-
-
-# class IndexView(ListView):
-#     template_name = 'index.html'
-#     context_object_name = 'files'
-#     model = Files
-#     # ordering = ['-created_at']
 
 
 class IndexView(ListView):
@@ -67,13 +57,6 @@ class IndexView(ListView):
 class FilesCreateView(CreateView):
     model = Files
     template_name = 'file_create.html'
-    # fields = ['file', 'title', 'access']
-
-    # def get_form_kwargs(self):
-    #     print(self.request.user)
-    #     kwargs = super().get_form_kwargs()
-    #     kwargs['author'] = self.request.user
-    #     return kwargs
 
     def get_form_class(self):
         if self.request.user.is_anonymous:
@@ -109,7 +92,6 @@ class FilesDeleteView(UserPassesTestMixin, DeleteView):
 class FilesUpdateView(UserPassesTestMixin, UpdateView):
     model = Files
     template_name = 'files_update.html'
-    # form_class = FileCreationForm
     fields = ('title', 'file', 'access')
     context_object_name = 'files'
 
@@ -118,7 +100,6 @@ class FilesUpdateView(UserPassesTestMixin, UpdateView):
             return True
 
     def get_success_url(self):
-        # return redirect('accounts:user_detail', pk=self.user_pk)
         return reverse('webapp:index')
 
 
@@ -126,4 +107,29 @@ class FilesDetailView(DetailView):
     model = Files
     template_name = 'file_detail.html'
     context_object_name = 'files'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context['users'] = User.objects.all()
+        # context['files'] = Files.objects.all().filter(access='public')
+        return context
+
+
+class AddToPrivate(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        file = get_object_or_404(Files, pk=request.POST.get('pk'))
+        Private.objects.get_or_create(user=user, file=file)
+        return JsonResponse({'pk': file.pk})
+
+
+class DeleteFromPrivate(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        file = get_object_or_404(Files, pk=request.POST.get('pk'))
+        Private.objects.filter(file=file, user=user).delete()
+        return JsonResponse({'pk': file.pk})
+
 # Create your views here.

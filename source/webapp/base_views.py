@@ -1,8 +1,6 @@
 from django.db.models import Q
-from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.http import urlencode
-from django.views import View
-from django.views.generic import TemplateView, ListView as DjangoListView
+from django.views.generic import ListView as DjangoListView
 
 from webapp.forms import SimpleSearchForm
 

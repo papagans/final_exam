@@ -5,13 +5,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import authenticate, login, logout
-from django.views.generic import UpdateView, DetailView, ListView, DeleteView, FormView, CreateView
-# from accounts.models import Profile
+from django.views.generic import DetailView
 from accounts.forms import UserCreationForm
-from django.shortcuts import redirect, get_object_or_404
-from django.contrib.auth.mixins import PermissionRequiredMixin
-
-# from webapp.models import Announce
+from django.shortcuts import redirect
 
 
 def login_view(request, *args, **kwargs):
