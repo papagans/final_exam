@@ -11,3 +11,7 @@ class FileCreationForm(forms.ModelForm):
     class Meta:
         model = Files
         exclude = ['created_at', 'author','counter']
+
+
+class SimpleSearchForm(forms.Form):
+    search = forms.CharField(max_length=100, required=False, label='Найти')
