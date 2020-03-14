@@ -42,10 +42,10 @@
       <li class="nav-item active">
         <a class="nav-link" href="{% url 'webapp:index' %}">Home <span class="sr-only">(current)</span></a>
       </li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'webapp:file_create' %}">Загрузить файл</a></li>
       {% if request.user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'accounts:user_detail' request.user.pk %}">Привет, {{ request.user }}!</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'accounts:logout_view' %}">Log Out</a></li>
-{#                        <li class="nav-item"><a class="nav-link" href="{% url 'webapp:announce_create' %}">Загрузить файл</a></li>#}
                     {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login_view' %}">Log In</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'accounts:register_view' %}">Sign Up</a></li>

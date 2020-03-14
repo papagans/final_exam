@@ -1,13 +1,14 @@
 from django.urls import path
-from webapp.views import IndexView
+from webapp.views import IndexView, FilesCreateView, FilesDeleteView, FilesUpdateView, FilesDetailView
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     # # path('article/<int:pk>/', ArticleView.as_view(), name='article_view'),
-    # path('announce/create/', AnnonceCreateView.as_view(), name='announce_create'),
+    path('file/create/', FilesCreateView.as_view(), name='file_create'),
     # path('image/add/<int:pk>/', ImagesCreateView.as_view(), name='image_add'),
-    # path('announce/detail/<int:pk>/', AnnounceDetailView.as_view(), name='announce_detail'),
+    path('file/detail/<int:pk>/', FilesDetailView.as_view(), name='file_detail'),
     # # path('article/<int:pk>/edit/', ArticleUpdateView.as_view(), name='article_update'),
-    # path('image/<int:pk>/delete/', ImagesDeleteView.as_view(), name='image_delete'),
+    path('file/<int:pk>/delete/', FilesDeleteView.as_view(), name='file_delete'),
+    path('file/<int:pk>/update/', FilesUpdateView.as_view(), name='file_update'),
     # path('announce/add-to-favorites/', AddToFavorites.as_view(), name='add_to_favorites'),
     # path('announce/delete-from-favorites/', DeleteFromFavorites.as_view(), name='delete_from_favorites')
 
