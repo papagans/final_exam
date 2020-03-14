@@ -40,6 +40,7 @@ class IndexView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['form'] = self.form
+        # context['files'] = Files.objects.all().filter(access='public')
         if self.search_value:
             context['query'] = urlencode({'search': self.search_value})
         return context
@@ -47,9 +48,11 @@ class IndexView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         if self.search_value:
-            query = Q(title__icontains=self.search_value)
+            query = Q(title__icontains=self.search_value, access__icontains='public')
             queryset = queryset.filter(query)
-        return queryset
+            return queryset
+        else:
+            return queryset.filter(access='public')
 
     def get_search_form(self):
         return SimpleSearchForm(self.request.GET)
