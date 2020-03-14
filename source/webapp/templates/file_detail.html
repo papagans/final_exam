@@ -20,29 +20,19 @@
   </div>
 </div>
     {% for user in users %}
-{#<li data-id="{{ user.id }}" class="privateadd" data-type="user-pk">#}
-{#{{ user.first_name }}#}
-{#    {{ user.id }}#}
-{#    <a href="#">Добавить</a></li>#}
-{#{%endfor%}#}
     <div id="favorites-button-{{ product.pk }}" class="mt-2">
         <a href="{% url "webapp:add_to_favorites" %}"
            id="add-to-favorites-{{ user.pk }}"
            class="btn btn-success favorites-add
                   {% if favorite %}d-none{% endif %}"
-           data-product-pk="{{ user.pk }}">Добавить в приват {{ user.first_name }}</a>
+           data-user="{{ user.pk }}" data-file-pk="{{ files.pk }}">Добавить в приват {{ user.first_name }}</a>
         <a href="{% url "webapp:delete_from_favorites" %}"
            id="delete-from-favorites-{{ user.pk }}"
            class="btn btn-danger favorites-delete
                  {% if not favorite %}d-none{% endif %}"
-           data-product-pk="{{ user.pk }}">Удалить из привата {{ user.first_name }}</a>
+           data-user="{{ user.pk }} " data-file-pk="{{ files.pk }}">Удалить из привата {{ user.first_name }}</a>
 </div>
     {% endfor %}
-
-{#    {% if request.user.is_authenticated %}#}
-{#            {% include 'partial/favorites_buttons.html' %}#}
-{#        {% endif %}#}
-
     </section>
 
             <hr/>

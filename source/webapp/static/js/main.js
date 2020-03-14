@@ -32,11 +32,12 @@ function favoritesAdd(e) {
     e.preventDefault();
     let link = $(e.target);
     let href = link.attr('href');
-    let product_pk = link.data('product-pk');
+    let user = link.data('user');
+    let file = link.data('file-pk');
     $.ajax({
         method: 'post',
         url: href,
-        data: {'pk': product_pk},
+        data: {'user': user, 'file': file},
         headers: {
             'X-CSRFToken': getCookie('csrftoken')
         }
@@ -49,11 +50,12 @@ function favoritesDelete(e) {
     e.preventDefault();
     let link = $(e.target);
     let href = link.attr('href');
-    let product_pk = link.data('product-pk');
+    let user = link.data('user');
+    let file = link.data('file-pk');
     $.ajax({
         method: 'post',
         url: href,
-        data: {'pk': product_pk},
+        data: {'user': user, 'file': file},
         headers: {
             'X-CSRFToken': getCookie('csrftoken')
         }

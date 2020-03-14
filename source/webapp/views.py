@@ -118,8 +118,9 @@ class FilesDetailView(DetailView):
 class AddToPrivate(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
-        user = request.user
-        file = get_object_or_404(Files, pk=request.POST.get('pk'))
+        file = get_object_or_404(Files, pk=request.POST.get('file'))
+        print(file, "THIS IS FILE")
+        user = get_object_or_404(User, pk=request.POST.get('user'))
         Private.objects.get_or_create(user=user, file=file)
         return JsonResponse({'pk': file.pk})
 
@@ -127,8 +128,8 @@ class AddToPrivate(LoginRequiredMixin, View):
 class DeleteFromPrivate(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
-        user = request.user
         file = get_object_or_404(Files, pk=request.POST.get('pk'))
+        user = get_object_or_404(User, pk=request.POST.get('user'))
         Private.objects.filter(file=file, user=user).delete()
         return JsonResponse({'pk': file.pk})
 
