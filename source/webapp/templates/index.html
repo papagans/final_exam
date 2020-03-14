@@ -1,22 +1,9 @@
 {% extends 'base.html' %}
-{#{% load is_favorite %}#}
-{#{% block menu %}#}
-{#    {% if request.user.is_authenticated %}#}
-{#        <li><a href="{% url 'webapp:announce_create' %}">Добавить Файл</a></li>#}
-{#    {% endif %}#}
-{#      {% include 'partial/simple_search.html' %}#}
-{#{% endblock %}#}
-
 {% block content %}
     <section>
         <h1>Файлы:</h1>
         {% for file in files %}
     <div class="card mt-3" style="width: 18rem;">
-{#    {% if  ann.image.all.first.photos.url %}#}
-{#        <img src="{{ ann.image.all.first.photos.url }}" class="card-img-top" alt="...">#}
-{#        {% else %}#}
-{#        <img src="/uploads/no_photo.jpg" class="card-img-top" alt="...">#}
-{#        {% endif %}#}
   <div class="card-body">
     <h5 class="card-title">Подпись: <a href="{% url 'webapp:file_detail' file.id %}">{{ file.title}}</a></h5>
     <p class="card-text">Скачать: <a href="{{ file.file.url }}">{{ file.file }}</a></p>

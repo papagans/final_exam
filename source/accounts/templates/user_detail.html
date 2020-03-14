@@ -4,10 +4,6 @@
     <div class="lk-content">
         <h1 class="text-center">Личный кабинет</h1>
         <div class="row" style="background-color: lightgray">
-            <div class="col col-12 col-sm-10 col-md-8 col-lg-3" style="width: 25%">
-                <div class="mt-3">
-                </div>
-            </div>
             <div class="col col-12 col-sm-10 col-md-8 col-lg-5" style="width: 25%">
                 <div class="mt-3">
                     <p><b>Логин:</b> {{ user_obj.username }}</p>
@@ -19,44 +15,49 @@
     </div>
     <h1>Файлы:</h1>
     {% for file in user_obj.announce_author.all %}
-        {% if file.access == 'public' and file.author != request.user%}
-    <div class="card mt-3" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">Подпись: <a href="{% url 'webapp:file_detail' file.id %}">{{ file.title}}</a></h5>
-    <p class="card-text">Скачать: <a href="{{ file.file.url }}">{{ file.file }}</a></p>
-      {% if file.author %}
-          <p class="card-text">Автор: <a href="{% url 'accounts:user_detail' file.author_id %}">{{ file.author}}</a></p>
-          {% else %}
-          <p class="card-text">Автор: Аноним</p>
-      {% endif %}
-      <p class="card-text">Добавлен: {{ file.created_at}}</p>
-  <p class="card-text">Добавлен: {{ file.pk}}</p>
-  {% if perms.webapp.change_file or file.author == request.user %}
-      <a href="{% url 'webapp:file_update' file.pk %}" class="btn btn-primary">Редактировать</a>
-      <a href="{% url 'webapp:file_delete' file.pk %}" class="btn btn-success">Удалить</a>
-  {% endif %}
-  {% endif %}
+        {% if file.access == 'public' and file.author != request.user %}
+
+            <div class="card mt-3 " style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Подпись: <a href="{% url 'webapp:file_detail' file.id %}">{{ file.title }}</a></h5>
+                    <p class="card-text">Скачать: <a href="{{ file.file.url }}">{{ file.file }}</a></p>
+                    {% if file.author %}
+                        <p class="card-text">Автор: <a
+                                href="{% url 'accounts:user_detail' file.author_id %}">{{ file.author }}</a></p>
+                    {% else %}
+                        <p class="card-text">Автор: Аноним</p>
+                    {% endif %}
+                    <p class="card-text">Добавлен: {{ file.created_at }}</p>
+                    {% if perms.webapp.change_file or file.author == request.user %}
+                        <a href="{% url 'webapp:file_update' file.pk %}" class="btn btn-primary">Редактировать</a>
+                        <a href="{% url 'webapp:file_delete' file.pk %}" class="btn btn-success">Удалить</a>
+
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+
     {% endfor %}
-        {% for file in user_obj.announce_author.all %}
-        {% if file.author == request.user%}
-    <div class="card mt-3" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">Подпись: <a href="{% url 'webapp:file_detail' file.id %}">{{ file.title}}</a></h5>
-    <p class="card-text">Скачать: <a href="{{ file.file.url }}">{{ file.file }}</a></p>
-      {% if file.author %}
-          <p class="card-text">Автор: <a href="{% url 'accounts:user_detail' file.author_id %}">{{ file.author}}</a></p>
-          {% else %}
-          <p class="card-text">Автор: Аноним</p>
-      {% endif %}
-      <p class="card-text">Добавлен: {{ file.created_at}}</p>
-  <p class="card-text">Добавлен: {{ file.pk}}</p>
-  {% if perms.webapp.change_file or file.author == request.user %}
-      <a href="{% url 'webapp:file_update' file.pk %}" class="btn btn-primary">Редактировать</a>
-      <a href="{% url 'webapp:file_delete' file.pk %}" class="btn btn-success">Удалить</a>
-  {% endif %}
-  {% endif %}
-  </div>
-</div>
+    {% for file in user_obj.announce_author.all %}
+        {% if file.author == request.user %}
+            <div class="card mt-3" style="width: 18rem;">
+            <div class="card-body">
+            <h5 class="card-title">Подпись: <a href="{% url 'webapp:file_detail' file.id %}">{{ file.title }}</a></h5>
+            <p class="card-text">Скачать: <a href="{{ file.file.url }}">{{ file.file }}</a></p>
+            {% if file.author %}
+                <p class="card-text">Автор: <a
+                        href="{% url 'accounts:user_detail' file.author_id %}">{{ file.author }}</a></p>
+            {% else %}
+                <p class="card-text">Автор: Аноним</p>
+            {% endif %}
+            <p class="card-text">Добавлен: {{ file.created_at }}</p>
+            {% if perms.webapp.change_file or file.author == request.user %}
+                <a href="{% url 'webapp:file_update' file.pk %}" class="btn btn-primary">Редактировать</a>
+                <a href="{% url 'webapp:file_delete' file.pk %}" class="btn btn-success">Удалить</a>
+            {% endif %}
+        {% endif %}
+    </div>
+    </div>
     {% endfor %}
 
 {% endblock %}
