@@ -11,7 +11,7 @@ from django.views.generic import ListView, DetailView, CreateView,\
     UpdateView, DeleteView, FormView, View
 # from django.core.paginator import Paginator
 #
-from webapp.forms import FileCreationForm, SimpleSearchForm
+from webapp.forms import AnonymCreationForm, FileCreationForm, SimpleSearchForm
 from .base_views import SimpleSearchView
 from webapp.models import Files
 # Create your views here.
@@ -64,13 +64,20 @@ class IndexView(ListView):
 class FilesCreateView(CreateView):
     model = Files
     template_name = 'file_create.html'
-    fields = ['file', 'title']
+    # fields = ['file', 'title', 'access']
 
     # def get_form_kwargs(self):
     #     print(self.request.user)
     #     kwargs = super().get_form_kwargs()
     #     kwargs['author'] = self.request.user
     #     return kwargs
+
+    def get_form_class(self):
+        if self.request.user.is_anonymous:
+            self.form_class = AnonymCreationForm
+        else:
+            self.form_class = FileCreationForm
+        return self.form_class
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -100,7 +107,7 @@ class FilesUpdateView(UserPassesTestMixin, UpdateView):
     model = Files
     template_name = 'files_update.html'
     # form_class = FileCreationForm
-    fields = ('title', 'file')
+    fields = ('title', 'file', 'access')
     context_object_name = 'files'
 
     def test_func(self):
