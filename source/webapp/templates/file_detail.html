@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load is_private %}
 {% block content %}
     <section>
         <h1>Файл:{{ files.title }}</h1>
@@ -20,7 +21,8 @@
   </div>
 </div>
     {% for user in users %}
-    <div id="favorites-button-{{ product.pk }}" class="mt-2">
+    <div id="favorites-button-{{ user.pk }}" class="mt-2">
+    {% with favorite=user|is_private:user %}
         <a href="{% url "webapp:add_to_favorites" %}"
            id="add-to-favorites-{{ user.pk }}"
            class="btn btn-success favorites-add
@@ -31,6 +33,7 @@
            class="btn btn-danger favorites-delete
                  {% if not favorite %}d-none{% endif %}"
            data-user="{{ user.pk }} " data-file-pk="{{ files.pk }}">Удалить из привата {{ user.first_name }}</a>
+    {% endwith %}
 </div>
     {% endfor %}
     </section>

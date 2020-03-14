@@ -5,4 +5,4 @@ register = template.Library()
 
 @register.filter
 def is_private(file, user):
-    return file.private_files.filter(user=user).count() > 0
+    return file.private_users.filter(user=user)
