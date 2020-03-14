@@ -28,9 +28,9 @@ class IndexView(ListView):
     template_name = 'index.html'
     model = Files
     context_object_name = 'files'
-    # ordering = ['-date']
-    # paginate_by = 10
-    # paginate_orphans = 1
+    ordering = ['-created_at']
+    paginate_by = 5
+    paginate_orphans = 1
 
     def get(self, request, *args, **kwargs):
         self.form = self.get_search_form()
@@ -83,41 +83,29 @@ class FilesCreateView(CreateView):
         return reverse('webapp:index')
 
 
-class FilesDeleteView(DeleteView):
+class FilesDeleteView(UserPassesTestMixin, DeleteView):
     model = Files
     template_name = 'delete.html'
     context_object_name = 'files'
+
+    def test_func(self):
+        if self.request.user.has_perm('file_change') or self.get_object().author == self.request.user:
+            return True
 
     def get_success_url(self):
         return reverse('webapp:index')
 
 
-class FilesUpdateView(UpdateView):
+class FilesUpdateView(UserPassesTestMixin, UpdateView):
     model = Files
     template_name = 'files_update.html'
     # form_class = FileCreationForm
     fields = ('title', 'file')
     context_object_name = 'files'
-    # permission_required = "accounts.change_user"
-    # permission_denied_message = "Доступ запрещен"
 
-    # def form_valid(self, form):
-    #     pk = self.kwargs.get('pk')
-    #     # user = get_object_or_404(User, id=pk)
-    #     file = get_object_or_404(Files, file=pk)
-    #     print(file.title)
-    #     # user = get_object_or_404(User, pk=pk)
-    #     # user.first_name = form.cleaned_data['first_name']
-    #     file.file = form.cleaned_data['file']
-    #     file.title = form.cleaned_data['title']
-    #     file.save()
-    #     # user.save()
-    #     # self.user_pk = self.kwargs['pk']
-    #
-    #     return self.get_success_url()
-
-    # def test_func(self):
-    #     return self.request.user.pk == self.kwargs['pk']
+    def test_func(self):
+        if self.request.user.has_perm('file_change') or self.get_object().author == self.request.user:
+            return True
 
     def get_success_url(self):
         # return redirect('accounts:user_detail', pk=self.user_pk)
